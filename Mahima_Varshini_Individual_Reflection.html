@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Individual Reflection - R. Mahima Varshini</title>
+<style>
+    @page { size: A4; margin: 18mm 20mm; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        color: #1e293b;
+        line-height: 1.55;
+        font-size: 10.5pt;
+        background: #fff;
+        margin: 0;
+        padding: 25px 35px;
+    }
+    .header { text-align: center; margin-bottom: 22px; }
+    .header h1 {
+        font-size: 19pt;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        color: #0f172a;
+        margin: 0 0 4px 0;
+    }
+    .header h2 {
+        font-size: 13pt;
+        font-weight: 700;
+        color: #1e3a8a;
+        margin: 0 0 4px 0;
+    }
+    .header p {
+        font-size: 9.5pt;
+        color: #64748b;
+        margin: 0;
+        font-style: italic;
+    }
+    .meta-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        border: 1.5px solid #cbd5e1;
+    }
+    .meta-table td {
+        padding: 7px 12px;
+        font-size: 9.5pt;
+        border: 1px solid #cbd5e1;
+    }
+    .meta-label {
+        font-weight: 700;
+        background-color: #f8fafc;
+        width: 22%;
+        color: #0f172a;
+    }
+    h3 {
+        font-size: 11.5pt;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 16px 0 6px 0;
+        border-bottom: 1.5px solid #e2e8f0;
+        padding-bottom: 3px;
+    }
+    p { margin: 0 0 9px 0; text-align: justify; }
+    ul { margin: 0 0 10px 0; padding-left: 20px; }
+    li { margin-bottom: 5px; text-align: justify; }
+    .page-break { page-break-after: always; }
+    .footer-note {
+        font-size: 8pt;
+        color: #94a3b8;
+        text-align: center;
+        margin-top: 25px;
+        border-top: 1px solid #f1f5f9;
+        padding-top: 5px;
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>INDIVIDUAL REFLECTION</h1>
+    <h2>Mini Use Case 02 – Credit Pre-Screening</h2>
+    <p>Calibo AI Academy | Part 2 – KLU Batch | Phase 2 | Supervised Learning Part 1</p>
+</div>
+
+<table class="meta-table">
+    <tr>
+        <td class="meta-label">Team Member</td>
+        <td><strong>R. Mahima Varshini</strong></td>
+    </tr>
+    <tr>
+        <td class="meta-label">Role</td>
+        <td>Data Analyst</td>
+    </tr>
+    <tr>
+        <td class="meta-label">Contribution</td>
+        <td>CBIM Problem Canvas and Step 5.1 (A–D): Load, Inspect, Analyze, and Clean Data</td>
+    </tr>
+</table>
+
+<h3>1. Project Overview</h3>
+<p>Our team worked on Mini Use Case 02 in the BFSI – Retail Lending (Personal Loans) domain. The project focuses on understanding credit pre-screening data and preparing it for analysis and supervised machine learning. The dataset contained 12,000 loan applications and 19 columns covering demographics, employment, income, existing EMI, credit history, loan details, and historical decisions.</p>
+
+<h3>2. My Role and Contribution</h3>
+<p>I worked as the Data Analyst responsible for the CBIM Problem Canvas and Step 5.1 sections A–D. I established the business context, loaded the dataset, inspected its structure, analyzed historical approval and decline outcomes, and investigated data-quality issues before the later analysis and modelling stages.</p>
+<ul>
+    <li><strong>CBIM Problem Canvas:</strong> Formulated the core business problem: "Which applications can be safely removed from manual review and auto-declined, with no more than 5% of those being ones the credit team would have approved?" Documented the Single Source of Truth (12,000 historical applications, Apr–Sep 2026) and defined operational success as analyst hours freed rather than raw model accuracy.</li>
+    <li><strong>Data loading:</strong> Imported required libraries (Pandas, NumPy, Matplotlib, Seaborn) and loaded the dataset CSV with dynamic fallback naming. Used <code>df.head()</code> to inspect initial application records.</li>
+    <li><strong>Dataset overview:</strong> Verified dataset dimensions using <code>df.shape</code> (12,000 rows × 19 columns), inspected column schemas using <code>df.columns</code>, and assessed non-null counts and memory consumption using <code>df.info()</code>.</li>
+    <li><strong>Historical decisions:</strong> Counted approved and declined applications, discovering an approval rate of 52.94% (6,353 approved) and a decline rate of 47.06% (5,647 declined).</li>
+    <li><strong>Data-quality checks:</strong> Investigated missing monthly income (441 rows), blank credit scores (1,039 rows), and implausibly high monthly incomes (12 rows).</li>
+    <li><strong>Cleaning documentation:</strong> Documented the business logic for every cleaning decision, ensuring zero rows were dropped (12,000 retained) and designing the imputation statistics to be learned strictly from training data to prevent data leakage.</li>
+</ul>
+
+<h3>3. Key Findings</h3>
+<ul>
+    <li>The dataset contained 12,000 applications and 19 columns with a balanced target distribution (52.94% approved vs. 47.06% declined).</li>
+    <li>There were 441 missing monthly-income values. Missingness was strongly concentrated among Business Owners (13.0%) and Self-Employed Professionals (10.8%), compared to under 1% for Salaried applicants. Dropping these rows would disproportionately remove self-employed borrowers from the analysis.</li>
+    <li>There were 1,039 missing credit scores (8.7% of all applicants). All 1,039 applicants had zero months of credit history (median age 29 vs 33), proving they were genuine New-to-Credit (NTC) applicants rather than missing errors.</li>
+    <li>Twelve monthly-income values were above ₹6,00,000 (reaching ₹16.56 lakh), and all 12 belonged to Salaried applicants. The notebook diagnosed this as annual CTC entered into the monthly income box and corrected them by dividing by 12 (normalizing them to ₹51,500–₹1,38,000).</li>
+    <li>The documented cleaning approach filled missing income using the median for the applicant's employment type, created an <code>is_ntc = 1</code> indicator before filling missing credit scores with the overall median (726), and retained all 12,000 records.</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h3>4. What I Learned</h3>
+<ul>
+    <li>I learned that inspecting a dataset's structure and distributions is an indispensable prerequisite before conducting modeling.</li>
+    <li>I practiced using essential Pandas functions such as <code>head()</code>, <code>shape</code>, <code>info()</code>, <code>isnull().sum()</code>, <code>value_counts()</code>, and <code>groupby()</code>.</li>
+    <li>I learned that missing values often carry business meaning; in this dataset, blank scores represented younger new-to-credit customers requiring specific credit policy consideration.</li>
+    <li>I gained a practical understanding of data leakage, recognizing why preprocessing medians must be computed on training data only and applied onto test data.</li>
+</ul>
+
+<h3>5. Challenges and How I Addressed Them</h3>
+<p>A key challenge was deciding how to treat missing and anomalous data without losing valuable customer records or biasing downstream models. Dropping rows with missing income or credit scores would have removed over 1,400 applications, severely under-representing self-employed and young applicants. I addressed this by investigating the underlying patterns, flagging NTC customers with a dedicated binary feature (<code>is_ntc</code>), and using group-specific medians for income. For the 12 extreme income values, identifying that they were all Salaried confirmed the annual-versus-monthly CTC entry error, allowing me to divide by 12 rather than discarding valid applications.</p>
+
+<h3>6. Teamwork and Business Understanding</h3>
+<p>My work established a clear, leakage-free starting point for the exploratory analysis conducted by Sai Surchit Das and the logistic regression model built by S. Vikas. By clearly documenting the CBIM Problem Canvas and the cleaning log, I helped ensure that the team remained focused on the fundamental banking reality: historical decisions represent past human underwriter judgment, not proven loan repayment ability.</p>
+
+<h3>7. What I Would Improve Next Time</h3>
+<ul>
+    <li>Build automated ingestion validation scripts to check boundary constraints and data types upon loading.</li>
+    <li>Create interactive comparison charts displaying feature distributions before and after imputation.</li>
+    <li>Cross-verify salary entries against automated payroll or banking statement APIs where available.</li>
+    <li>Track missingness patterns across city tiers and gender to identify potential regional or demographic data gaps.</li>
+</ul>
+
+<h3>8. Conclusion</h3>
+<p>This task strengthened my practical understanding of data audit, exploratory inspection, data-quality assessment, and responsible preprocessing. My main learning is that effective machine learning starts with deep data understanding and meticulous documentation. Through the CBIM Problem Canvas and Step 5.1, I delivered the initial data foundation for our Credit Pre-Screening project.</p>
+
+<div class="footer-note">
+    Calibo AI Academy · MUC02 · Individual Reflection · R. Mahima Varshini
+</div>
+
+</body>
+</html>
+
